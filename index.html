@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Mid-Autumn Festival!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #0c1445 0%, #1a237e 30%, #311b92 70%, #4a148c 100%);
+            color: #f8e7c7;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Starry Night Background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        .moon {
+            position: fixed;
+            top: 10%;
+            right: 10%;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, #fff9c4 30%, #ffeb3b 70%);
+            border-radius: 50%;
+            box-shadow: 0 0 40px #ffeb3b, 0 0 80px rgba(255, 235, 59, 0.5);
+            z-index: -1;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .cloud {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .container {
+            padding: 2rem;
+            background: rgba(22, 15, 49, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+            border: 1px solid #f8e7c7;
+            max-width: 500px;
+            margin: 1rem;
+            backdrop-filter: blur(5px);
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .subtitle {
+            font-style: italic;
+            margin-bottom: 2rem;
+            color: #e0d3b8;
+        }
+
+        .counter-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1.5rem 0;
+        }
+
+        .counter {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.5rem 1.5rem;
+            border-radius: 15px;
+            border: 2px solid #ffd700;
+            min-width: 180px;
+        }
+
+        .message {
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            min-height: 1.8rem;
+            color: #e0d3b8;
+        }
+
+        .mooncake-container {
+            position: relative;
+            margin: 2rem auto;
+            width: 300px;
+            height: 300px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.5));
+        }
+
+        .mooncake {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #d4a55f 0%, #b8860b 100%);
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 
+                inset 0 0 30px #8b4513,
+                0 0 40px rgba(180, 120, 50, 0.8);
+            border: 10px solid #c19155;
+            overflow: hidden;
+        }
+
+        /* Mooncake pattern */
+        .mooncake::before {
+            content: "㊗️福";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: #8b4513;
+            text-shadow: 1px 1px 3px #f8e7c7;
+            z-index: 2;
+        }
+
+        .mooncake::after {
+            content: "";
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            right: 15%;
+            bottom: 15%;
+            border: 3px solid #8b4513;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .pattern {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .pattern-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: #8b4513;
+            border-radius: 50%;
+        }
+
+        .click-effect {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, rgba(255,215,0,0.8) 0%, rgba(255,215,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: pulse 0.5s ease-out forwards;
+            z-index: 10;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        .lanterns {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .lantern {
+            position: absolute;
+            width: 80px;
+            height: 100px;
+            background: linear-gradient(to bottom, #ff5252, #b71c1c);
+            border-radius: 10px 10px 5px 5px;
+            opacity: 0.8;
+            animation: swing 5s ease-in-out infinite;
+        }
+
+        .lantern::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            width: 50px;
+            height: 15px;
+            background: #ffd700;
+            border-radius: 8px;
+        }
+
+        .lantern::after {
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            left: 35px;
+            width: 10px;
+            height: 20px;
+            background: #ffd700;
+            border-radius: 5px;
+        }
+
+        .lantern.left {
+            top: 15%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .lantern.right {
+            top: 15%;
+            right: 5%;
+            animation-delay: 2.5s;
+        }
+
+        @keyframes swing {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        footer {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #b0a3a3;
+        }
+
+        /* Hover and active effects */
+        .mooncake-container:hover {
+            transform: scale(1.05);
+        }
+
+        .mooncake-container:active {
+            transform: scale(0.95);
+        }
+
+        .achievement {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 215, 0, 0.9);
+            color: #8b4513;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+            animation: slideUp 3s ease-in-out;
+            display: none;
+            z-index: 100;
+        }
+
+        @keyframes slideUp {
+            0% { bottom: -50px; opacity: 0; }
+            20% { bottom: 20px; opacity: 1; }
+            80% { bottom: 20px; opacity: 1; }
+            100% { bottom: -50px; opacity: 0; }
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+                margin: 0.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .mooncake-container {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .counter {
+                font-size: 2.8rem;
+            }
+            
+            .lantern {
+                width: 60px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="moon"></div>
+    <div class="lanterns">
+        <div class="lantern left"></div>
+        <div class="lantern right"></div>
+    </div>
+
+    <div class="container">
+        <h1>Mid-Autumn Festival</h1>
+        <p class="subtitle">Tap the Mooncake to Celebrate!</p>
+        
+        <div class="counter-container">
+            <div class="counter" id="counter">0</div>
+        </div>
+        <p class="message" id="message">Tap the mooncake to begin!</p>
+        
+        <div class="mooncake-container" id="mooncake">
+            <div class="mooncake">
+                <div class="pattern"></div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Wishing you a joyful Mid-Autumn Festival! 🥮</p>
+        </footer>
+    </div>
+
+    <div class="achievement" id="achievement"></div>
+
+    <script>
+        // Get elements from the DOM
+        const counterElement = document.getElementById('counter');
+        const messageElement = document.getElementById('message');
+        const mooncakeElement = document.getElementById('mooncake');
+        const achievementElement = document.getElementById('achievement');
+        const starsContainer = document.getElementById('stars');
+        
+        // Initialize counter
+        let count = 0;
+        
+        // Messages to display at different click milestones
+        const messages = [
+            { threshold: 0, text: "Tap the mooncake to begin!" },
+            { threshold: 10, text: "Great start! Keep going!" },
+            { threshold: 25, text: "You're getting the hang of it!" },
+            { threshold: 50, text: "Mooncake master in the making!" },
+            { threshold: 100, text: "Incredible! The moon is smiling!" },
+            { threshold: 150, text: "You're a Mid-Autumn Festival star!" },
+            { threshold: 200, text: "Legendary mooncake tapper!" }
+        ];
+        
+        // Achievements to show at certain counts
+        const achievements = [
+            { count: 10, text: "First Steps! 🌟" },
+            { count: 25, text: "Mooncake Apprentice! 🥮" },
+            { count: 50, text: "Festival Enthusiast! 🎑" },
+            { count: 100, text: "Mooncake Master! 👑" },
+            { count: 200, text: "Mid-Autumn Legend! 🌕" }
+        ];
+        
+        // Function to update the message based on current count
+        function updateMessage() {
+            let currentMessage = "Wishing you happiness and prosperity!";
+            
+            // Find the appropriate message based on count
+            for (let i = messages.length - 1; i >= 0; i--) {
+                if (count >= messages[i].threshold) {
+                    currentMessage = messages[i].text;
+                    break;
+                }
+            }
+            
+            messageElement.textContent = currentMessage;
+        }
+        
+        // Function to show achievements
+        function checkAchievements() {
+            for (let achievement of achievements) {
+                if (count === achievement.count) {
+                    achievementElement.textContent = achievement.text;
+                    achievementElement.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        achievementElement.style.display = 'none';
+                    }, 3000);
+                    break;
+                }
+            }
+        }
+        
+        // Function to create a click effect
+        function createClickEffect(x, y) {
+            const effect = document.createElement('div');
+            effect.className = 'click-effect';
+            effect.style.left = `${x - 25}px`;
+            effect.style.top = `${y - 25}px`;
+            
+            mooncakeElement.appendChild(effect);
+            
+            // Remove the effect after animation completes
+            setTimeout(() => {
+                effect.remove();
+            }, 500);
+        }
+        
+        // Function to create stars in the background
+        function createStars() {
+            const starsCount = 150;
+            
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random position and size
+                const size = Math.random() * 3 + 1;
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                const delay = Math.random() * 5;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${left}%`;
+                star.style.top = `${top}%`;
+                star.style.animationDelay = `${delay}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Add click event listener to the mooncake
+        mooncakeElement.addEventListener('click', (event) => {
+            // Get click position relative to the mooncake container
+            const rect = mooncakeElement.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            
+            // Increment the counter
+            count++;
+            
+            // Update the counter display
+            counterElement.textContent = count;
+            
+            // Update message if needed
+            updateMessage();
+            
+            // Check for achievements
+            checkAchievements();
+            
+            // Create visual feedback
+            createClickEffect(x, y);
+            
+            // Add a slight "bounce" effect to the counter
+            counterElement.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                counterElement.style.transform = 'scale(1)';
+            }, 200);
+        });
+        
+        // Initialize the message and create stars
+        updateMessage();
+        createStars();
+    </script>
+</body>
+</html>
